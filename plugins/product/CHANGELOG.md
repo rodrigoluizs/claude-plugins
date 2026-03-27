@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1 (2026-03-27)
+
+- fix: exclude release bot commits from plugin changelogs (#5)
+
+
 ## 0.2.0 (2026-03-27)
 
 - feat(product): add 'define a feature' trigger to create-prd skill (#4)
