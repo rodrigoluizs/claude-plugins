@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.2 (2026-03-27)
+
+- chore: update plugin descriptions to be concept-level (#6)
+
+
 ## 0.2.1 (2026-03-27)
 
 - fix: exclude release bot commits from plugin changelogs (#5)

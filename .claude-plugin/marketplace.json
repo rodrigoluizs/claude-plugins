@@ -13,14 +13,14 @@
       "source": "./plugins/product",
       "description": "Product management tools for feature definition and planning",
       "category": "productivity",
-      "version": "product/v0.2.1"
+      "version": "product/v0.2.2"
     },
     {
       "name": "maintenance",
       "source": "./plugins/maintenance",
       "description": "Tools for routine repository maintenance and housekeeping",
       "category": "productivity",
-      "version": "maintenance/v0.1.0"
+      "version": "maintenance/v0.1.1"
     }
   ]
 }
