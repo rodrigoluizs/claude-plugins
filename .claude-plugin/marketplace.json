@@ -1,0 +1,24 @@
+{
+  "name": "personal-claude-marketplace",
+  "owner": {
+    "name": "Rodrigo Silva",
+    "email": "rodrigoluizscs@gmail.com"
+  },
+  "metadata": {
+    "description": "Personal Claude Code plugin marketplace"
+  },
+  "plugins": [
+    {
+      "name": "product",
+      "source": "./plugins/product",
+      "description": "Create Product Requirement Documents as GitHub issues",
+      "category": "productivity"
+    },
+    {
+      "name": "maintenance",
+      "source": "./plugins/maintenance",
+      "description": "Review and merge dependency update PRs from Renovate and Dependabot",
+      "category": "productivity"
+    }
+  ]
+}
