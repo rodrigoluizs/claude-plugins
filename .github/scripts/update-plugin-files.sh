@@ -28,9 +28,9 @@ CURRENT_VERSION="${CURRENT_TAG#"${PLUGIN}/v"}"
 
 # If there's only one tag, PREV_TAG == CURRENT_TAG — treat as no previous tag
 if [ "$PREV_TAG" = "$CURRENT_TAG" ]; then
-  COMMITS=$(git log --format="%s" -- "$PLUGIN_DIR")
+  COMMITS=$(git log --format="%s" -- "$PLUGIN_DIR" | grep -v "^chore(release):")
 else
-  COMMITS=$(git log "${PREV_TAG}..${CURRENT_TAG}" --format="%s" -- "$PLUGIN_DIR")
+  COMMITS=$(git log "${PREV_TAG}..${CURRENT_TAG}" --format="%s" -- "$PLUGIN_DIR" | grep -v "^chore(release):")
 fi
 
 # --- update CHANGELOG.md ---
