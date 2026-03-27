@@ -34,11 +34,11 @@ assert_eq "multiple plugins, deduplicated" \
 
 assert_eq "non-plugin changes excluded" \
   "" \
-  "$(extract_plugins "marketplace.json")"
+  "$(extract_plugins ".claude-plugin/marketplace.json")"
 
 assert_eq "mixed: plugin and non-plugin" \
   "product" \
-  "$(extract_plugins "$(printf 'marketplace.json\nplugins/product/plugin.json')")"
+  "$(extract_plugins "$(printf '.claude-plugin/marketplace.json\nplugins/product/plugin.json')")"
 
 echo ""
 echo "Results: $PASS passed, $FAIL failed"

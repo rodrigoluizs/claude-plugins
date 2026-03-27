@@ -84,7 +84,7 @@ jobs:
           python3 - <<'PYEOF'
           import json, subprocess
 
-          with open("marketplace.json") as f:
+          with open(".claude-plugin/marketplace.json") as f:
               data = json.load(f)
 
           for plugin in data["plugins"]:
@@ -97,13 +97,13 @@ jobs:
               if tags:
                   plugin["version"] = sorted(tags)[-1]
 
-          with open("marketplace.json", "w") as f:
+          with open(".claude-plugin/marketplace.json", "w") as f:
               json.dump(data, f, indent=2)
               f.write("\n")
           PYEOF
 
       - name: Commit and push file updates
         run: |
-          git add plugins/ marketplace.json
+          git add plugins/ .claude-plugin/marketplace.json
           git diff --cached --quiet || git commit -m "chore(release): update plugin files and marketplace"
           git push origin main
