@@ -12,13 +12,15 @@
       "name": "product",
       "source": "./plugins/product",
       "description": "Create Product Requirement Documents as GitHub issues",
-      "category": "productivity"
+      "category": "productivity",
+      "version": "product/v0.1.0"
     },
     {
       "name": "maintenance",
       "source": "./plugins/maintenance",
       "description": "Review and merge dependency update PRs from Renovate and Dependabot",
-      "category": "productivity"
+      "category": "productivity",
+      "version": "maintenance/v0.1.0"
     }
   ]
 }
