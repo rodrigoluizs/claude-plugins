@@ -11,14 +11,14 @@
     {
       "name": "product",
       "source": "./plugins/product",
-      "description": "Create Product Requirement Documents as GitHub issues",
+      "description": "Product management tools for feature definition and planning",
       "category": "productivity",
       "version": "product/v0.2.1"
     },
     {
       "name": "maintenance",
       "source": "./plugins/maintenance",
-      "description": "Review and merge dependency update PRs from Renovate and Dependabot",
+      "description": "Tools for routine repository maintenance and housekeeping",
       "category": "productivity",
       "version": "maintenance/v0.1.0"
     }
