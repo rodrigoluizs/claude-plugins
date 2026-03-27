@@ -1,0 +1,109 @@
+name: Release Plugins
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'plugins/**'
+
+permissions:
+  contents: write
+
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      plugins: ${{ steps.detect.outputs.plugins }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed plugins
+        id: detect
+        run: |
+          PLUGINS=$(bash .github/scripts/detect-changed-plugins.sh \
+            "${{ github.event.before }}" \
+            "${{ github.sha }}")
+          echo "Found changed plugins: $PLUGINS"
+          JSON=$(echo "$PLUGINS" | python3 -c "import sys, json; print(json.dumps(sys.stdin.read().split()))")
+          echo "plugins=$JSON" >> "$GITHUB_OUTPUT"
+
+  release:
+    needs: detect
+    if: needs.detect.outputs.plugins != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        plugin: ${{ fromJson(needs.detect.outputs.plugins) }}
+      fail-fast: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Tag plugin release
+        run: |
+          chmod +x .github/scripts/tag-plugin.sh
+          bash .github/scripts/tag-plugin.sh "${{ matrix.plugin }}"
+
+  update-marketplace:
+    needs: [detect, release]
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch new tags
+        run: git fetch --tags
+
+      - name: Update plugin files
+        run: |
+          chmod +x .github/scripts/update-plugin-files.sh
+          for plugin in $(echo '${{ needs.detect.outputs.plugins }}' | python3 -c "import sys, json; [print(p) for p in json.load(sys.stdin)]"); do
+            TAG=$(bash .github/scripts/update-plugin-files.sh "$plugin")
+            echo "Updated files for $TAG"
+          done
+
+      - name: Update marketplace.json
+        run: |
+          python3 - <<'PYEOF'
+          import json, subprocess
+
+          with open("marketplace.json") as f:
+              data = json.load(f)
+
+          for plugin in data["plugins"]:
+              name = plugin["name"]
+              result = subprocess.run(
+                  ["git", "tag", "-l", f"{name}/v*"],
+                  capture_output=True, text=True
+              )
+              tags = [t for t in result.stdout.strip().split("\n") if t]
+              if tags:
+                  plugin["version"] = sorted(tags)[-1]
+
+          with open("marketplace.json", "w") as f:
+              json.dump(data, f, indent=2)
+              f.write("\n")
+          PYEOF
+
+      - name: Commit and push file updates
+        run: |
+          git add plugins/ marketplace.json
+          git diff --cached --quiet || git commit -m "chore(release): update plugin files and marketplace"
+          git push origin main
