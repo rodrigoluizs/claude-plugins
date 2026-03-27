@@ -1,7 +1,7 @@
 {
   "name": "maintenance",
   "version": "0.1.0",
-  "description": "Review and merge dependency update PRs from Renovate and Dependabot",
+  "description": "Tools for routine repository maintenance and housekeeping",
   "skills": [
     "dep-review"
   ]
