@@ -1,0 +1,6 @@
+{
+  "name": "product",
+  "version": "1.0.0",
+  "description": "Create Product Requirement Documents as GitHub issues",
+  "skills": ["create-prd"]
+}
