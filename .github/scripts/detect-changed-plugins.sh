@@ -9,4 +9,5 @@ HEAD_SHA="${2:?head SHA required}"
 git diff --name-only "$BASE_SHA" "$HEAD_SHA" \
   | grep "^plugins/" \
   | cut -d'/' -f2 \
-  | sort -u
+  | sort -u \
+  || true

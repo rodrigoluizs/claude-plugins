@@ -55,7 +55,7 @@ fi
 
 python3 - <<PYEOF
 import json
-path = "$PLUGIN_DIR/plugin.json"
+path = "$PLUGIN_DIR/.claude-plugin/plugin.json"
 with open(path) as f:
     data = json.load(f)
 data["version"] = "$CURRENT_VERSION"
