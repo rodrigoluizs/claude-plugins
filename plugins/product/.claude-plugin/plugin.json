@@ -1,5 +1,6 @@
 {
   "name": "product",
   "version": "0.3.0",
-  "description": "Product management tools for feature definition and planning"
+  "description": "Product management tools for feature definition and planning",
+  "author": "Rodrigo Silva"
 }
