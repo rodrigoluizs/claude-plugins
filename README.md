@@ -39,17 +39,17 @@ To get the latest versions of all installed plugins:
 ## Adding a new plugin
 
 1. Create a directory under `plugins/<your-plugin-name>/`
-2. Add `plugin.json` with at minimum:
+2. Add `.claude-plugin/plugin.json` with at minimum:
    ```json
    {
      "name": "your-plugin-name",
      "version": "1.0.0",
      "description": "What it does",
-     "skills": []
+     "author": { "name": "Your Name", "email": "you@example.com" }
    }
    ```
 3. Add your skills under `plugins/<your-plugin-name>/skills/<skill-name>/SKILL.md`
-4. Add the plugin entry to `marketplace.json`
+4. Add the plugin entry to `.claude-plugin/marketplace.json`
 5. Open a PR — on merge to `main`, the release workflow auto-tags and versions it
 
 ## Versioning
