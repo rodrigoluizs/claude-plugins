@@ -95,7 +95,8 @@ jobs:
               )
               tags = [t for t in result.stdout.strip().split("\n") if t]
               if tags:
-                  plugin["version"] = sorted(tags)[-1]
+                  tag = sorted(tags)[-1]
+                  plugin["version"] = tag.split("/v", 1)[-1]
 
           with open(".claude-plugin/marketplace.json", "w") as f:
               json.dump(data, f, indent=2)
