@@ -1,0 +1,24 @@
+name: Test CI Scripts
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/scripts/**'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test Scripts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run all tests
+        run: |
+          for test in .github/scripts/tests/test-*.sh; do
+            echo "Running $test"
+            bash "$test"
+          done

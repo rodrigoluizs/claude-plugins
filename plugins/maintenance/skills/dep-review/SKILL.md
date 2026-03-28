@@ -1,6 +1,6 @@
 ---
 name: "dep-review"
-description: "This skill should be used when the user wants to review, triage, or merge open dependency update PRs from Renovate or Dependabot. It classifies each PR by merge safety, recommends a merge order, and batch merges on confirmation. Triggers include: 'merge renovate PRs', 'review dependency updates', 'triage dependabot PRs', 'batch approve dependency bumps', 'merge deps', 'upgrade dependencies'."
+description: "This skill should be used when the user wants to review, triage, or merge open dependency update PRs from Renovate or Dependabot. It classifies each PR by merge safety, recommends a merge order, and batch merges on confirmation. Triggers include: 'merge renovate PRs', 'review dependency updates', 'triage dependabot PRs', 'batch approve dependency bumps', 'merge deps', 'upgrade dependencies', 'update deps'."
 ---
 
 # Merge Dependency Updates
