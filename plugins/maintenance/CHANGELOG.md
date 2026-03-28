@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0 (2026-03-28)
+
+- feat: add PR validation workflow for plugins and marketplace (#7)
+
+
 ## 0.1.1 (2026-03-27)
 
 - chore: update plugin descriptions to be concept-level (#6)
