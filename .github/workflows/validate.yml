@@ -9,22 +9,18 @@ permissions:
 
 jobs:
   detect:
-    name: Detect Changed Plugins
+    name: Detect Plugins
     runs-on: ubuntu-latest
     outputs:
       plugins: ${{ steps.detect.outputs.plugins }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-        with:
-          fetch-depth: 0
 
-      - name: Detect changed plugins
+      - name: List all plugins
         id: detect
         run: |
-          PLUGINS=$(bash .github/scripts/detect-changed-plugins.sh \
-            "${{ github.event.pull_request.base.sha }}" \
-            "${{ github.event.pull_request.head.sha }}" | python3 -c "import sys, json; print(json.dumps(sys.stdin.read().split()))")
-          echo "Found changed plugins: $PLUGINS"
+          PLUGINS=$(ls -d plugins/*/ | cut -d'/' -f2 | python3 -c "import sys, json; print(json.dumps(sys.stdin.read().split()))")
+          echo "Found plugins: $PLUGINS"
           echo "plugins=$PLUGINS" >> "$GITHUB_OUTPUT"
 
   validate-marketplace:
@@ -47,7 +43,6 @@ jobs:
   validate-plugin:
     name: Validate / ${{ matrix.plugin }}
     needs: detect
-    if: needs.detect.outputs.plugins != '[]'
     runs-on: ubuntu-latest
     strategy:
       matrix:
