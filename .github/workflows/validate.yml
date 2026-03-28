@@ -1,0 +1,69 @@
+name: Validate Plugins
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  detect:
+    name: Detect Changed Plugins
+    runs-on: ubuntu-latest
+    outputs:
+      plugins: ${{ steps.detect.outputs.plugins }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed plugins
+        id: detect
+        run: |
+          PLUGINS=$(bash .github/scripts/detect-changed-plugins.sh \
+            "${{ github.event.pull_request.base.sha }}" \
+            "${{ github.event.pull_request.head.sha }}" | python3 -c "import sys, json; print(json.dumps(sys.stdin.read().split()))")
+          echo "Found changed plugins: $PLUGINS"
+          echo "plugins=$PLUGINS" >> "$GITHUB_OUTPUT"
+
+  validate-marketplace:
+    name: Validate Marketplace
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Validate marketplace
+        run: claude plugin validate .
+
+  validate-plugin:
+    name: Validate / ${{ matrix.plugin }}
+    needs: detect
+    if: needs.detect.outputs.plugins != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        plugin: ${{ fromJson(needs.detect.outputs.plugins) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Validate plugin
+        run: |
+          cd "$GITHUB_WORKSPACE/plugins/${{ matrix.plugin }}"
+          claude plugin validate .
