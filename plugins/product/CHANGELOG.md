@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1 (2026-03-28)
+
+- fix: resolve plugin validation warnings (#10)
+
+
 ## 0.3.0 (2026-03-28)
 
 - feat: add PR validation workflow for plugins and marketplace (#7)
