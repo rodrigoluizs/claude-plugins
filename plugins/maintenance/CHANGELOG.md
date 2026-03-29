@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.1 (2026-03-29)
+
+- fix(maintenance): respect stability period checks in handle-dependency-prs skill (#20)
+
+
 ## 0.4.0 (2026-03-29)
 
 - feat(maintenance): rename dep-review to handle-dependency-prs and improve skill (#19)
