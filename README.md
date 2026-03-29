@@ -33,8 +33,8 @@ To get the latest versions of all installed plugins:
 
 | Plugin | Skills | Description |
 |--------|--------|-------------|
-| `product` | `create-prd` | Interviews you about a feature, writes a Product Requirement Document, and creates a GitHub issue for it |
-| `maintenance` | `dep-review` | Reviews open Renovate/Dependabot PRs, classifies each by merge safety, recommends a merge order, and batch merges on confirmation |
+| `product` | `create-prd` | Product management tools for feature definition and planning |
+| `maintenance` | `dep-review` | Tools for routine repository maintenance and housekeeping |
 
 ## Adding a new plugin
 
