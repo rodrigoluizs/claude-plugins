@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.0 (2026-03-29)
+
+- feat(maintenance): rename dep-review to handle-dependency-prs and improve skill (#19)
+
+
 ## 0.3.0 (2026-03-29)
 
 - feat(maintenance): add fix-ci-main skill (#17)
