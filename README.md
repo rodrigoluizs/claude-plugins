@@ -31,10 +31,10 @@ To get the latest versions of all installed plugins:
 
 ## Available plugins
 
-| Plugin | Description |
-|--------|-------------|
-| `product` | Create Product Requirement Documents as GitHub issues (`create-prd` skill) |
-| `maintenance` | Review and merge dependency update PRs from Renovate and Dependabot (`dep-review` skill) |
+| Plugin | Skills | Description |
+|--------|--------|-------------|
+| `product` | `create-prd` | Interviews you about a feature, writes a Product Requirement Document, and creates a GitHub issue for it |
+| `maintenance` | `dep-review` | Reviews open Renovate/Dependabot PRs, classifies each by merge safety, recommends a merge order, and batch merges on confirmation |
 
 ## Adding a new plugin
 
