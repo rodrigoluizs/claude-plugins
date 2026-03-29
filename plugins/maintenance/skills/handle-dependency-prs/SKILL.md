@@ -48,6 +48,7 @@ Additional risk factors to flag:
 - **Merge conflicts** (`mergeable !== "MERGEABLE"`) — escalate to tier 5
 - **Source code changes** (anything outside lockfiles, manifests, or workflow files) — escalate one tier
 - **Workflow/CI file changes** (`.github/workflows/`, `.circleci/`, etc.) — minimum tier 4
+- **Pending stability / minimum age checks** (e.g. "minimum-release-age", "stability-days", "age/days") — **do not recommend merging**; these checks exist for security reasons and must be respected even if all other checks pass. Mark the PR as "Waiting — stability period not met" and exclude it from the merge candidates.
 
 ### Step 4: Present Analysis
 
