@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0 (2026-03-29)
+
+- feat(maintenance): add fix-ci-main skill (#17)
+
+
 ## 0.2.1 (2026-03-28)
 
 - fix: resolve plugin validation warnings (#10)
