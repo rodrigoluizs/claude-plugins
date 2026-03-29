@@ -1,6 +1,6 @@
-# Personal Claude Marketplace
+# Claude Code Plugin Marketplace
 
-Personal Claude Code plugin marketplace.
+Claude Code plugin marketplace.
 
 ## Installing the marketplace
 
