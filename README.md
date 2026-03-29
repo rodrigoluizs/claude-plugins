@@ -34,7 +34,7 @@ To get the latest versions of all installed plugins:
 | Plugin | Skills | Description |
 |--------|--------|-------------|
 | `product` | `create-prd` | Product management tools for feature definition and planning |
-| `maintenance` | `dep-review` | Tools for routine repository maintenance and housekeeping |
+| `maintenance` | `handle-dependency-prs` | Tools for routine repository maintenance and housekeeping |
 
 ## Adding a new plugin
 
