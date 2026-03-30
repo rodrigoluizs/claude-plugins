@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.0 (2026-03-30)
+
+- feat(maintenance): extract parallel subagents for dependency PR handling (#21)
+
+
 ## 0.4.1 (2026-03-29)
 
 - fix(maintenance): respect stability period checks in handle-dependency-prs skill (#20)
