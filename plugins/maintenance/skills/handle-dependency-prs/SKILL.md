@@ -12,11 +12,18 @@ Analyze open dependency bot PRs, classify each by merge risk, recommend a merge 
 ### Step 1: Fetch Open Dependency PRs
 
 ```bash
-gh pr list --author "app/renovate" --state open --json number,title,labels,additions,deletions,mergeable,headRefName --limit 50
-gh pr list --author "app/dependabot" --state open --json number,title,labels,additions,deletions,mergeable,headRefName --limit 50
+gh pr list --state open --json number,title,author,labels,additions,deletions,mergeable,headRefName --limit 100
 ```
 
-Combine results from both bots. Only process PRs authored by `app/renovate` or `app/dependabot` — never touch PRs opened by humans, even if they bump a dependency. If no bot PRs are found, inform the user and stop.
+From the results, identify dependency bot PRs using these signals — any match is sufficient:
+
+- **Author login** contains: `renovate`, `dependabot`, `depfu`, `snyk-bot`, `whitesource`, `mend`
+- **Author type** is `Bot`
+- **Labels** include: `dependencies`, `dependency`, `renovate`, `dependabot`
+- **Branch name** starts with: `dependabot/`, `renovate/`, `deps/`
+- **Title** matches patterns like: `chore(deps):`, `bump X from Y to Z`, `update dependency X`
+
+Never include PRs opened by humans, even if they bump a dependency. If no dependency bot PRs are found, inform the user and stop.
 
 ### Step 2: Analyse and Classify PRs (Parallel)
 
