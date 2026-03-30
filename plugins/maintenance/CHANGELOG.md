@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.2 (2026-03-30)
+
+- fix(maintenance): detect dependency bots by heuristics instead of hardcoded author names (#24)
+
+
 ## 0.6.1 (2026-03-30)
 
 - fix(maintenance): enforce subagent delegation in handle-dependency-prs (#23)
