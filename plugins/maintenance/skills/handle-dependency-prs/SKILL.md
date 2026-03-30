@@ -22,47 +22,7 @@ Combine results from both bots. Only process PRs authored by `app/renovate` or `
 
 Dispatch one subagent per PR in parallel — do not run any `gh pr checks` or `gh pr diff` commands in the main context. If more than 20 PRs are found, dispatch in batches of 10. Wait for all results before proceeding.
 
-Each subagent receives the PR number and must:
-
-1. Fetch CI status:
-   ```bash
-   gh pr checks <number>
-   ```
-2. Fetch changed file names:
-   ```bash
-   gh pr diff <number> --name-only
-   ```
-3. Fetch the diff content:
-   ```bash
-   gh pr diff <number>
-   ```
-4. Assign a safety tier using these rules:
-
-   | Tier | Label | Criteria |
-   |------|-------|----------|
-   | 1 | **Very Safe** | Patch version, lockfile-only changes (e.g. `package-lock.json`, `Gemfile.lock`, `poetry.lock`, `go.sum`, `gradle.lockfile`); for Maven, patch-only `pom.xml` with no source files touched |
-   | 2 | **Safe** | Patch version touching manifest/config files but no source code (e.g. `package.json`, `Gemfile`, `pyproject.toml`, `go.mod`, `pom.xml`, `build.gradle`) |
-   | 3 | **Likely Safe** | Minor version bump, no breaking changes expected, only dependency files changed |
-   | 4 | **Review Recommended** | Minor version bump touching source/config beyond dependency files, or CI failing |
-   | 5 | **Caution** | Major version bump, changes to CI/workflow files, or merge conflicts |
-
-   Identify the ecosystem from the files changed (Node/npm, Ruby/Bundler, Python/pip or Poetry, Go modules, Java/Maven, Java/Gradle, etc.). Note that Maven has no lockfile — version pins live entirely in `pom.xml`.
-
-   Additional risk factors — apply these after the base tier:
-   - **CI failures** — escalate one tier
-   - **Pending stability / minimum age checks** (e.g. "minimum-release-age", "stability-days") — mark as `stability-hold`; do not recommend merging regardless of tier
-   - **Merge conflicts** (`mergeable !== "MERGEABLE"`) — escalate to tier 5
-   - **Source code changes** (anything outside lockfiles, manifests, or workflow files) — escalate one tier
-   - **Workflow/CI file changes** (`.github/workflows/`, `.circleci/`, etc.) — minimum tier 4
-
-5. Return a structured summary:
-   - PR number and title
-   - Version change (old → new) if detectable from the diff
-   - Ecosystem (Node, Java/Maven, Go, etc.)
-   - Assigned tier and label
-   - CI status (pass / fail / pending / stability-hold)
-   - List of risk factors flagged
-   - Files changed count and types
+Invoke the `analyze-dependency-pr` agent per PR, passing the PR number. The agent handles data fetching, classification, and risk escalation and returns a structured result. Collect all results before proceeding.
 
 ### Step 3: Present Analysis
 
