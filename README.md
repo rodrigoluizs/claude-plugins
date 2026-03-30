@@ -31,10 +31,10 @@ To get the latest versions of all installed plugins:
 
 ## Available plugins
 
-| Plugin | Skills | Description |
-|--------|--------|-------------|
-| `product` | `create-prd` | Product management tools for feature definition and planning |
-| `maintenance` | `handle-dependency-prs` | Tools for routine repository maintenance and housekeeping |
+| Plugin | Skills | Agents | Description |
+|--------|--------|--------|-------------|
+| `product` | `create-prd` | — | Product management tools for feature definition and planning |
+| `maintenance` | [`handle-dependency-prs`](docs/handle-dependency-prs.md), `fix-ci-main` | `analyze-dependency-pr`, `fix-dependency-pr` | Tools for routine repository maintenance and housekeeping |
 
 ## Adding a new plugin
 
