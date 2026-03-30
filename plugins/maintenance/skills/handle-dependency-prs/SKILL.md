@@ -27,7 +27,7 @@ Never include PRs opened by humans, even if they bump a dependency. If no depend
 
 ### Step 2: Analyse and Classify PRs (Parallel)
 
-Your only job in this step is to build the list of PR numbers from Step 1 and invoke one `analyze-dependency-pr` agent per PR. Do nothing else — no `gh` commands, no diff reading, no classification. All of that happens inside the agent.
+Your only job in this step is to build the list of PR numbers from Step 1 and invoke one `maintenance:analyze-dependency-pr` agent per PR. Do nothing else — no `gh` commands, no diff reading, no classification. All of that happens inside the agent.
 
 If more than 20 PRs are found, invoke agents in batches of 10. Wait for all results before proceeding.
 
@@ -76,7 +76,7 @@ Do not proceed to Step 4 or Step 5 until the user confirms.
 For every PR with a CI failure, ask the user:
 > "The following PRs have CI failures: [list]. Would you like me to attempt to diagnose and fix them in isolated worktrees?"
 
-If the user confirms, dispatch one `fix-dependency-pr` agent per failing PR in parallel. Collect all results and present a summary:
+If the user confirms, dispatch one `maintenance:fix-dependency-pr` agent per failing PR in parallel. Collect all results and present a summary:
 
 ```
 ## CI Fix Results
