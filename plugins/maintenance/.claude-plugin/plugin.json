@@ -1,6 +1,6 @@
 {
   "name": "maintenance",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Tools for routine repository maintenance and housekeeping",
   "author": {
     "name": "Rodrigo Silva",

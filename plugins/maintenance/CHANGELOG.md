@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.1 (2026-03-30)
+
+- fix(maintenance): enforce subagent delegation in handle-dependency-prs (#23)
+
+
 ## 0.6.0 (2026-03-30)
 
 - feat(maintenance): delegate PR analysis to subagents in handle-dependency-prs skill (#22)
