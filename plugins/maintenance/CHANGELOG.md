@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.0 (2026-03-30)
+
+- feat(maintenance): delegate PR analysis to subagents in handle-dependency-prs skill (#22)
+
+
 ## 0.5.0 (2026-03-30)
 
 - feat(maintenance): extract parallel subagents for dependency PR handling (#21)

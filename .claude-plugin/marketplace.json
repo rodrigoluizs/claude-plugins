@@ -20,7 +20,7 @@
       "source": "./plugins/maintenance",
       "description": "Tools for routine repository maintenance and housekeeping",
       "category": "productivity",
-      "version": "0.5.0"
+      "version": "0.6.0"
     }
   ]
 }
