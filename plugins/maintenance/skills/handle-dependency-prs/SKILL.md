@@ -20,9 +20,9 @@ Combine results from both bots. Only process PRs authored by `app/renovate` or `
 
 ### Step 2: Analyse and Classify PRs (Parallel)
 
-Dispatch one subagent per PR in parallel — do not run any `gh pr checks` or `gh pr diff` commands in the main context. If more than 20 PRs are found, dispatch in batches of 10. Wait for all results before proceeding.
+Your only job in this step is to build the list of PR numbers from Step 1 and invoke one `analyze-dependency-pr` agent per PR. Do nothing else — no `gh` commands, no diff reading, no classification. All of that happens inside the agent.
 
-Invoke the `analyze-dependency-pr` agent per PR, passing the PR number. The agent handles data fetching, classification, and risk escalation and returns a structured result. Collect all results before proceeding.
+If more than 20 PRs are found, invoke agents in batches of 10. Wait for all results before proceeding.
 
 ### Step 3: Present Analysis
 
