@@ -12,15 +12,22 @@ Analyze open dependency bot PRs, classify each by merge risk, recommend a merge 
 ### Step 1: Fetch Open Dependency PRs
 
 ```bash
-gh pr list --author "app/renovate" --state open --json number,title,labels,additions,deletions,mergeable,headRefName --limit 50
-gh pr list --author "app/dependabot" --state open --json number,title,labels,additions,deletions,mergeable,headRefName --limit 50
+gh pr list --state open --json number,title,author,labels,additions,deletions,mergeable,headRefName --limit 100
 ```
 
-Combine results from both bots. Only process PRs authored by `app/renovate` or `app/dependabot` — never touch PRs opened by humans, even if they bump a dependency. If no bot PRs are found, inform the user and stop.
+From the results, identify dependency bot PRs using these signals — any match is sufficient:
+
+- **Author login** contains: `renovate`, `dependabot`, `depfu`, `snyk-bot`, `whitesource`, `mend`
+- **Author type** is `Bot`
+- **Labels** include: `dependencies`, `dependency`, `renovate`, `dependabot`
+- **Branch name** starts with: `dependabot/`, `renovate/`, `deps/`
+- **Title** matches patterns like: `chore(deps):`, `bump X from Y to Z`, `update dependency X`
+
+Never include PRs opened by humans, even if they bump a dependency. If no dependency bot PRs are found, inform the user and stop.
 
 ### Step 2: Analyse and Classify PRs (Parallel)
 
-Your only job in this step is to build the list of PR numbers from Step 1 and invoke one `analyze-dependency-pr` agent per PR. Do nothing else — no `gh` commands, no diff reading, no classification. All of that happens inside the agent.
+Your only job in this step is to build the list of PR numbers from Step 1 and invoke one `maintenance:analyze-dependency-pr` agent per PR. Do nothing else — no `gh` commands, no diff reading, no classification. All of that happens inside the agent.
 
 If more than 20 PRs are found, invoke agents in batches of 10. Wait for all results before proceeding.
 
@@ -69,7 +76,7 @@ Do not proceed to Step 4 or Step 5 until the user confirms.
 For every PR with a CI failure, ask the user:
 > "The following PRs have CI failures: [list]. Would you like me to attempt to diagnose and fix them in isolated worktrees?"
 
-If the user confirms, dispatch one `fix-dependency-pr` agent per failing PR in parallel. Collect all results and present a summary:
+If the user confirms, dispatch one `maintenance:fix-dependency-pr` agent per failing PR in parallel. Collect all results and present a summary:
 
 ```
 ## CI Fix Results
