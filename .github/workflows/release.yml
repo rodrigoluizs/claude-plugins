@@ -39,15 +39,22 @@ jobs:
         plugin: ${{ fromJson(needs.detect.outputs.plugins) }}
       fail-fast: true
     steps:
+      - name: Get release bot token
+        id: get-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.RELEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.get-token.outputs.token }}
 
       - name: Configure git
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "rodrigoluizs-release[bot]"
+          git config user.email "rodrigoluizs-release[bot]@users.noreply.github.com"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -86,15 +93,22 @@ jobs:
     if: success()
     runs-on: ubuntu-latest
     steps:
+      - name: Get release bot token
+        id: get-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.RELEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.get-token.outputs.token }}
 
       - name: Configure git
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "rodrigoluizs-release[bot]"
+          git config user.email "rodrigoluizs-release[bot]@users.noreply.github.com"
 
       - name: Fetch new tags
         run: git fetch --tags
@@ -145,4 +159,4 @@ jobs:
             --head "$BRANCH")
           gh pr merge "$PR_URL" --auto --squash
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.get-token.outputs.token }}
