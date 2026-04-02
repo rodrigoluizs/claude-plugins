@@ -104,6 +104,7 @@ jobs:
         with:
           pattern: release-files-*
           merge-multiple: true
+          path: .
 
       - name: Update marketplace.json
         run: |
