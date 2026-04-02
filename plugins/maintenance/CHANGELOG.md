@@ -1,5 +1,17 @@
 
 
+## [1.0.0](https://github.com/rodrigoluizs/claude-plugins/compare/maintenance/v0.6.4...maintenance/v1.0.0) (2026-04-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* **maintenance:** handle-dependency-prs now requires the user to explicitly
+re-confirm before merging more than 10 PRs in a single session.
+
+### Features
+
+* **maintenance:** require re-confirmation after merging 10 dependency PRs ([#66](https://github.com/rodrigoluizs/claude-plugins/issues/66)) ([fc83433](https://github.com/rodrigoluizs/claude-plugins/commit/fc834334907b06ef510d542192a1078f8cd5b250))
+
 ## [0.6.4](https://github.com/rodrigoluizs/claude-plugins/compare/maintenance/v0.6.3...maintenance/v0.6.4) (2026-04-02)
 
 
