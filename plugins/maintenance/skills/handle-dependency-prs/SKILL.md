@@ -116,4 +116,3 @@ Wait for explicit user confirmation, then merge sequentially in the recommended 
 - If `gh pr review --approve` fails with permission errors, inform the user they need to approve manually or switch GitHub accounts
 - If merge fails due to conflicts, suggest the user re-run the skill after branch updates
 - Never force merge or bypass required checks
-- Never merge more than 10 PRs in a single session without re-confirming with the user
