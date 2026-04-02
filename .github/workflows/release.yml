@@ -70,7 +70,7 @@ jobs:
       - name: Push tag
         run: |
           cd plugins/${{ matrix.plugin }}
-          NEW_VERSION=$(python3 -c "import json; print(json.load(open('.claude-plugin/plugin.json'))['version'])")
+          NEW_VERSION=$(jq -r '.version' .claude-plugin/plugin.json)
           git push origin "${{ matrix.plugin }}/v${NEW_VERSION}"
 
       - name: Upload release artifacts
