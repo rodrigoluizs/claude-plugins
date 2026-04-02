@@ -1,6 +1,6 @@
 ---
 name: create-prd
-description: This skill should be used when the user asks to "create a PRD", "write a product requirement document", "draft a PRD", "new feature PRD", "product requirements", "create product spec", "write product spec", "define a feature", "document a feature", "write feature requirements", "product spec", "feature spec", or needs to define a feature from a product perspective and create a GitHub issue for it.
+description: This skill should be used when the user asks to "create a PRD", "write a product requirement document", "draft a PRD", "new feature PRD", "product requirements", "create product spec", "write product spec", "define a feature", "document a feature", "write feature requirements", "product spec", "feature spec", "new feature spec", or needs to define a feature from a product perspective and create a GitHub issue for it.
 ---
 
 # Create PRD (Product Requirement Document)

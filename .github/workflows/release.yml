@@ -119,9 +119,12 @@ jobs:
 
       - name: Download release artifacts
         run: |
-          gh run download "${{ github.run_id }}" \
-            --pattern "release-files-*" \
-            --dir .
+          for plugin in $(echo '${{ needs.detect.outputs.plugins }}' | jq -r '.[]'); do
+            gh run download "${{ github.run_id }}" \
+              --name "release-files-${plugin}" \
+              --dir /tmp/artifacts
+          done
+          cp -r /tmp/artifacts/. .
         env:
           GH_TOKEN: ${{ steps.get-token.outputs.token }}
 
