@@ -2,6 +2,7 @@
   "git": {
     "push": false,
     "commitsPath": ".",
+    "requireUpstream": false,
     "getLatestTagFromAllRefs": true
   },
   "github": {
@@ -14,7 +15,10 @@
   "plugins": {
     "@release-it/conventional-changelog": {
       "preset": "conventionalcommits",
-      "infile": "CHANGELOG.md"
+      "infile": "CHANGELOG.md",
+      "gitRawCommitsOpts": {
+        "path": "."
+      }
     },
     "@release-it/bumper": {
       "out": ".claude-plugin/plugin.json"
