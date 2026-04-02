@@ -28,7 +28,7 @@ jobs:
             "${{ github.event.before }}" \
             "${{ github.sha }}")
           echo "Found changed plugins: $PLUGINS"
-          JSON=$(echo "$PLUGINS" | jq -Rc 'split(" ")')
+          JSON=$(echo "$PLUGINS" | jq -Rsc '[split("\n")[] | select(length > 0)]')
           echo "plugins=$JSON" >> "$GITHUB_OUTPUT"
 
   release:
