@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   detect:
@@ -48,12 +49,39 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Tag plugin release
-        run: |
-          chmod +x .github/scripts/tag-plugin.sh
-          bash .github/scripts/tag-plugin.sh "${{ matrix.plugin }}"
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
 
-  update-marketplace:
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run release-it
+        run: |
+          cd plugins/${{ matrix.plugin }}
+          npx release-it \
+            --config ../../.github/.release-it.json \
+            --git.tagName='${{ matrix.plugin }}/v${version}' \
+            --git.commitMessage='chore(release): ${{ matrix.plugin }} v${version}' \
+            --ci
+
+      - name: Push tag
+        run: |
+          cd plugins/${{ matrix.plugin }}
+          NEW_VERSION=$(python3 -c "import json; print(json.load(open('.claude-plugin/plugin.json'))['version'])")
+          git push origin "${{ matrix.plugin }}/v${NEW_VERSION}"
+
+      - name: Upload release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-files-${{ matrix.plugin }}
+          path: |
+            plugins/${{ matrix.plugin }}/CHANGELOG.md
+            plugins/${{ matrix.plugin }}/.claude-plugin/plugin.json
+
+  update-and-pr:
     needs: [detect, release]
     if: success()
     runs-on: ubuntu-latest
@@ -71,13 +99,11 @@ jobs:
       - name: Fetch new tags
         run: git fetch --tags
 
-      - name: Update plugin files
-        run: |
-          chmod +x .github/scripts/update-plugin-files.sh
-          for plugin in $(echo '${{ needs.detect.outputs.plugins }}' | python3 -c "import sys, json; [print(p) for p in json.load(sys.stdin)]"); do
-            TAG=$(bash .github/scripts/update-plugin-files.sh "$plugin")
-            echo "Updated files for $TAG"
-          done
+      - name: Download release artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: release-files-*
+          merge-multiple: true
 
       - name: Update marketplace.json
         run: |
@@ -103,8 +129,19 @@ jobs:
               f.write("\n")
           PYEOF
 
-      - name: Commit and push file updates
+      - name: Create release branch and PR
         run: |
+          BRANCH="chore/release-${{ github.run_id }}"
+          git checkout -b "$BRANCH"
           git add plugins/ .claude-plugin/marketplace.json
-          git diff --cached --quiet || git commit -m "chore(release): update plugin files and marketplace"
-          git push origin main
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "chore(release): update plugin files and marketplace"
+          git push origin "$BRANCH"
+          PR_URL=$(gh pr create \
+            --title "chore(release): update plugin files and marketplace" \
+            --body "Automated release: updates CHANGELOG.md, plugin.json, and marketplace.json for released plugins." \
+            --base main \
+            --head "$BRANCH")
+          gh pr merge "$PR_URL" --auto --squash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
