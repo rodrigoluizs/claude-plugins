@@ -1,6 +1,6 @@
 ---
 name: "handle-dependency-prs"
-description: "Use when reviewing, triaging, or merging open PRs from dependency bots (e.g. Renovate, Dependabot), or when the user asks to handle dependency updates, or when a dependency bot upgrade caused CI failures that may be breaking changes needing investigation and fixing."
+description: "Use when reviewing, triaging, or merging open PRs from dependency bots (e.g. Renovate, Dependabot), or when the user asks to handle dependency updates, merge dependency PRs, or when a dependency bot upgrade caused CI failures that may be breaking changes needing investigation and fixing."
 ---
 
 # Merge Dependency Updates
