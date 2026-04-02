@@ -59,7 +59,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies
@@ -112,11 +112,15 @@ jobs:
         run: git fetch --tags
 
       - name: Download release artifacts
-        uses: actions/download-artifact@v4
-        with:
-          pattern: release-files-*
-          merge-multiple: true
-          path: .
+        run: |
+          PLUGINS=$(echo '${{ needs.detect.outputs.plugins }}' | python3 -c "import sys, json; print('\n'.join(json.load(sys.stdin)))")
+          while IFS= read -r plugin; do
+            gh run download "${{ github.run_id }}" \
+              --name "release-files-${plugin}" \
+              --dir "plugins/${plugin}/"
+          done <<< "$PLUGINS"
+        env:
+          GH_TOKEN: ${{ steps.get-token.outputs.token }}
 
       - name: Update marketplace.json
         run: |
