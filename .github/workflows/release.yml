@@ -84,9 +84,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: release-files-${{ matrix.plugin }}
-          path: |
-            plugins/${{ matrix.plugin }}/CHANGELOG.md
-            plugins/${{ matrix.plugin }}/.claude-plugin/plugin.json
+          path: plugins/${{ matrix.plugin }}/
 
   update-and-pr:
     needs: [detect, release]
