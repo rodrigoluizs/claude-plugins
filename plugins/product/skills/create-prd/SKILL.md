@@ -97,3 +97,4 @@ Present the drafted PRD to the user. Ask if they want to adjust, add, or remove 
 - All content must be written in English regardless of the interview language.
 - Keep the language non-technical and product-focused. No architecture, APIs, or implementation details.
 - If the user provides arguments when invoking the skill, treat them as the initial feature description and skip Phase 1.
+- Keep the PRD concise — avoid padding or repeating information across sections.
