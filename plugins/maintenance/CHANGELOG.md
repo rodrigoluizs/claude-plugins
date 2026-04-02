@@ -1,5 +1,16 @@
 
 
+## [2.0.0](https://github.com/rodrigoluizs/claude-plugins/compare/maintenance/v1.0.0...maintenance/v2.0.0) (2026-04-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* **maintenance:** removes the batch merge limit introduced in the previous release.
+
+### Features
+
+* **maintenance:** revert 10-PR re-confirmation guardrail ([#69](https://github.com/rodrigoluizs/claude-plugins/issues/69)) ([b7d512a](https://github.com/rodrigoluizs/claude-plugins/commit/b7d512ac6c64272e74cd8ed87fafbec546fa1f6f))
+
 ## [1.0.0](https://github.com/rodrigoluizs/claude-plugins/compare/maintenance/v0.6.4...maintenance/v1.0.0) (2026-04-02)
 
 
