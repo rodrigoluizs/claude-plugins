@@ -91,6 +91,7 @@ Present the drafted PRD to the user. Ask if they want to adjust, add, or remove 
    - **Body:** The full PRD markdown content
    - **Labels:** Add a `prd` label. If the label does not exist, create it first with `gh label create prd --description "Product Requirement Document" --color "5319E7"`.
 3. Return the issue URL to the user.
+4. Suggest adding the issue to the team's backlog or sprint if applicable.
 
 ## Important Notes
 
