@@ -1,5 +1,7 @@
 
 
+## [0.5.0](https://github.com/rodrigoluizs/claude-plugins/compare/product/v0.4.0...product/v0.5.0) (2026-04-02)
+
 ## [0.4.0](https://github.com/rodrigoluizs/claude-plugins/compare/product/v0.3.13...product/v0.4.0) (2026-04-02)
 
 
