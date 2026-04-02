@@ -27,7 +27,7 @@ jobs:
             "${{ github.event.before }}" \
             "${{ github.sha }}")
           echo "Found changed plugins: $PLUGINS"
-          JSON=$(echo "$PLUGINS" | python3 -c "import sys, json; print(json.dumps(sys.stdin.read().split()))")
+          JSON=$(echo "$PLUGINS" | jq -Rc 'split(" ")')
           echo "plugins=$JSON" >> "$GITHUB_OUTPUT"
 
   release:
@@ -113,12 +113,12 @@ jobs:
 
       - name: Download release artifacts
         run: |
-          PLUGINS=$(echo '${{ needs.detect.outputs.plugins }}' | python3 -c "import sys, json; print('\n'.join(json.load(sys.stdin)))")
-          while IFS= read -r plugin; do
+          for plugin in $(echo '${{ needs.detect.outputs.plugins }}' | jq -r '.[]'); do
             gh run download "${{ github.run_id }}" \
               --name "release-files-${plugin}" \
-              --dir "plugins/${plugin}/"
-          done <<< "$PLUGINS"
+              --dir "plugins/${plugin}/" \
+              --clobber
+          done
         env:
           GH_TOKEN: ${{ steps.get-token.outputs.token }}
 
