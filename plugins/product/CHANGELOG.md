@@ -1,5 +1,14 @@
 
 
+## [0.3.13](https://github.com/rodrigoluizs/claude-plugins/compare/product/v0.3.12...product/v0.3.13) (2026-04-02)
+
+
+### Bug Fixes
+
+* **product:** remove test keywords added during release workflow debugging ([#59](https://github.com/rodrigoluizs/claude-plugins/issues/59)) ([3bb1e8d](https://github.com/rodrigoluizs/claude-plugins/commit/3bb1e8dfbe91a05d69b8e41124f30e635e4e93e3))
+* **release:** fix jq split to handle newline-separated plugin names ([#63](https://github.com/rodrigoluizs/claude-plugins/issues/63)) ([79a3258](https://github.com/rodrigoluizs/claude-plugins/commit/79a3258e5c970f578c8d370061744c4e701bbb41))
+* **release:** skip workflow on chore(release) commits to prevent infinite loop ([#62](https://github.com/rodrigoluizs/claude-plugins/issues/62)) ([d75c567](https://github.com/rodrigoluizs/claude-plugins/commit/d75c5677eeb4b1f36488ccbca72edb3cd3b16145))
+
 ## [0.3.12](https://github.com/rodrigoluizs/claude-plugins/compare/product/v0.3.11...product/v0.3.12) (2026-04-02)
 
 ## [0.3.11](https://github.com/rodrigoluizs/claude-plugins/compare/product/v0.3.10...product/v0.3.11) (2026-04-02)
