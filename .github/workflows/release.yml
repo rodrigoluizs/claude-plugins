@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   detect:
-    if: "!startsWith(github.event.head_commit.message, 'chore(release):')"
+    if: github.actor != 'rodrigoluizs-release[bot]'
     runs-on: ubuntu-latest
     outputs:
       plugins: ${{ steps.detect.outputs.plugins }}
