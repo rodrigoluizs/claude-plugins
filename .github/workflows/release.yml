@@ -10,9 +10,6 @@ permissions:
   contents: write
   pull-requests: write
 
-env:
-  RELEASE_APP_ID: ${{ vars.RELEASE_APP_ID }}
-
 jobs:
   detect:
     runs-on: ubuntu-latest
