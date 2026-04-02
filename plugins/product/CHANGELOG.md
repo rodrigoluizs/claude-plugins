@@ -1,5 +1,17 @@
 
 
+## [0.4.0](https://github.com/rodrigoluizs/claude-plugins/compare/product/v0.3.13...product/v0.4.0) (2026-04-02)
+
+
+### Features
+
+* **product:** suggest adding issue to backlog after PRD creation ([#65](https://github.com/rodrigoluizs/claude-plugins/issues/65)) ([e0ce230](https://github.com/rodrigoluizs/claude-plugins/commit/e0ce230600555a449b3c7248ed9e33936764c981))
+
+
+### Bug Fixes
+
+* **release:** check actor instead of commit message to skip release bot pushes ([#68](https://github.com/rodrigoluizs/claude-plugins/issues/68)) ([ad194cc](https://github.com/rodrigoluizs/claude-plugins/commit/ad194ccc512099cbb9078cd37dcd1c99d521c909))
+
 ## [0.3.13](https://github.com/rodrigoluizs/claude-plugins/compare/product/v0.3.12...product/v0.3.13) (2026-04-02)
 
 
