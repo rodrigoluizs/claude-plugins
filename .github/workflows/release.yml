@@ -81,10 +81,16 @@ jobs:
           git push origin "${{ matrix.plugin }}/v${NEW_VERSION}"
 
       - name: Upload release artifacts
-        uses: actions/upload-artifact@v4
+        run: |
+          mkdir -p /tmp/artifacts/plugins/${{ matrix.plugin }}/.claude-plugin
+          cp plugins/${{ matrix.plugin }}/CHANGELOG.md /tmp/artifacts/plugins/${{ matrix.plugin }}/
+          cp plugins/${{ matrix.plugin }}/.claude-plugin/plugin.json /tmp/artifacts/plugins/${{ matrix.plugin }}/.claude-plugin/
+
+      - uses: actions/upload-artifact@v4
         with:
           name: release-files-${{ matrix.plugin }}
-          path: plugins/${{ matrix.plugin }}/
+          path: /tmp/artifacts/
+          include-hidden-files: true
 
   update-and-pr:
     needs: [detect, release]
@@ -113,12 +119,9 @@ jobs:
 
       - name: Download release artifacts
         run: |
-          for plugin in $(echo '${{ needs.detect.outputs.plugins }}' | jq -r '.[]'); do
-            rm -f "plugins/${plugin}/CHANGELOG.md" "plugins/${plugin}/.claude-plugin/plugin.json"
-            gh run download "${{ github.run_id }}" \
-              --name "release-files-${plugin}" \
-              --dir "plugins/${plugin}/"
-          done
+          gh run download "${{ github.run_id }}" \
+            --pattern "release-files-*" \
+            --dir .
         env:
           GH_TOKEN: ${{ steps.get-token.outputs.token }}
 
