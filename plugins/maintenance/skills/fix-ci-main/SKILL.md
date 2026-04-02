@@ -1,6 +1,6 @@
 ---
 name: fix-ci-main
-description: "Use when CI on the main branch is failing (security scans, linters, tests, builds), when grype/trivy/megalinter report vulnerabilities, or when dependency upgrades are needed to fix CI. KEYWORDS: fix ci, main failing, grype, trivy, megalinter, security scan, vulnerability, CVE, GHSA, dependency upgrade, fix linter, broken main, ci failing."
+description: "Use when CI on the main branch is failing (security scans, linters, tests, builds), when grype/trivy/megalinter report vulnerabilities, or when dependency upgrades are needed to fix CI. KEYWORDS: fix ci, main failing, grype, trivy, megalinter, security scan, vulnerability, CVE, GHSA, dependency upgrade, fix linter, broken main."
 ---
 
 # Fix CI on Main
