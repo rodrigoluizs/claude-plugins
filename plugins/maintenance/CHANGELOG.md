@@ -1,5 +1,7 @@
 
 
+## [3.0.0](https://github.com/rodrigoluizs/claude-plugins/compare/maintenance/v2.0.0...maintenance/v3.0.0) (2026-04-02)
+
 ## [2.0.0](https://github.com/rodrigoluizs/claude-plugins/compare/maintenance/v1.0.0...maintenance/v2.0.0) (2026-04-02)
 
 
