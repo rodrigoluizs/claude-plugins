@@ -1,5 +1,12 @@
 
 
+## [0.3.13](https://github.com/rodrigoluizs/claude-plugins/compare/product/v0.3.12...product/v0.3.13) (2026-04-02)
+
+
+### Bug Fixes
+
+* **product:** remove test keywords added during release workflow debugging ([#59](https://github.com/rodrigoluizs/claude-plugins/issues/59)) ([3bb1e8d](https://github.com/rodrigoluizs/claude-plugins/commit/3bb1e8dfbe91a05d69b8e41124f30e635e4e93e3))
+
 ## [0.3.11](https://github.com/rodrigoluizs/claude-plugins/compare/product/v0.3.10...product/v0.3.11) (2026-04-02)
 
 ## [0.3.10](https://github.com/rodrigoluizs/claude-plugins/compare/product/v0.3.9...product/v0.3.10) (2026-04-02)
