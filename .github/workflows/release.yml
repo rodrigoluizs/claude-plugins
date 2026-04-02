@@ -114,10 +114,10 @@ jobs:
       - name: Download release artifacts
         run: |
           for plugin in $(echo '${{ needs.detect.outputs.plugins }}' | jq -r '.[]'); do
+            rm -f "plugins/${plugin}/CHANGELOG.md" "plugins/${plugin}/.claude-plugin/plugin.json"
             gh run download "${{ github.run_id }}" \
               --name "release-files-${plugin}" \
-              --dir "plugins/${plugin}/" \
-              --clobber
+              --dir "plugins/${plugin}/"
           done
         env:
           GH_TOKEN: ${{ steps.get-token.outputs.token }}
