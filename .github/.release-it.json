@@ -1,0 +1,23 @@
+{
+  "git": {
+    "push": false,
+    "commitsPath": ".",
+    "getLatestTagFromAllRefs": true
+  },
+  "github": {
+    "release": false
+  },
+  "npm": {
+    "publish": false,
+    "versionFile": false
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": "conventionalcommits",
+      "infile": "CHANGELOG.md"
+    },
+    "@release-it/bumper": {
+      "out": ".claude-plugin/plugin.json"
+    }
+  }
+}
