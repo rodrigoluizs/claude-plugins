@@ -23,6 +23,21 @@ jobs:
           echo "Found plugins: $PLUGINS"
           echo "plugins=$PLUGINS" >> "$GITHUB_OUTPUT"
 
+  validate-lockfile:
+    name: Install Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Validate lock file
+        run: npm ci
+
   validate-marketplace:
     name: Validate Marketplace
     runs-on: ubuntu-latest
