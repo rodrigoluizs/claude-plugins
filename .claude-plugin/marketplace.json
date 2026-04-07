@@ -21,6 +21,13 @@
       "description": "Tools for routine repository maintenance and housekeeping",
       "category": "productivity",
       "version": "3.0.0"
+    },
+    {
+      "name": "redash",
+      "source": "./plugins/redash",
+      "description": "Intent-driven query building and data exploration for Redash",
+      "category": "productivity",
+      "version": "0.1.0"
     }
   ]
 }
