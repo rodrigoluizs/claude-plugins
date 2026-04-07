@@ -14,14 +14,16 @@ Builds and executes Redash queries from natural language intent. Designed for us
 
 ## Data Source SQL Dialects
 
-Different data sources require different SQL syntax. Always identify the data source type before writing SQL:
+The `GET /api/data_sources` response includes a `type` field for each data source. Use it to determine the correct SQL dialect before writing any query:
 
-| Data source | SQL engine | Notes |
+| `type` | SQL engine | Key syntax notes |
 |---|---|---|
-| Data Lake - Athena | **Presto** | Use `date_add('minute', -5, now())`, `from_iso8601_timestamp()`, `LIKE`, `||` for string concat. No `DATE_SUB`, no `ILIKE`. |
-| Other sources | Standard SQL | Use the dialect appropriate to the database type (PostgreSQL, MySQL, etc.) |
+| `athena` | **Presto** | `date_add('minute', N, now())`, `from_iso8601_timestamp()`, `\|\|` for string concat, `LIKE` (no `ILIKE`). No `DATE_SUB`, no `DATE_FORMAT`. |
+| `pg` | **PostgreSQL** | Standard PG syntax: `NOW()`, `INTERVAL`, `::` casts, `ILIKE`, `||` for string concat. |
+| `rds_mysql` | **MySQL** | `DATE_SUB(NOW(), INTERVAL N MINUTE)`, `CONCAT()`, `LIKE`. No `ILIKE`, no `::` casts. |
+| `results` | n/a | Queries over saved query results — use simple SELECT/WHERE only. |
 
-When the data source is Athena, always write Presto-compatible SQL.
+Always fetch the data source `type` in Step 2 and apply the matching dialect in Step 4. Never assume the dialect from the data source name.
 
 ## Workflow
 
@@ -36,7 +38,7 @@ curl -s -H "Authorization: Key $REDASH_API_KEY" \
   "https://redash.data-bonial.com/api/data_sources" | jq '.[] | {id, name, type}'
 ```
 
-Present the list to the user and ask which data source to use, or infer from intent if obvious.
+Present the list to the user and ask which data source to use, or infer from intent if obvious. Note the `type` field of the chosen data source — it determines the SQL dialect (see Data Source SQL Dialects above).
 
 ### Step 3 — Fetch schema
 
