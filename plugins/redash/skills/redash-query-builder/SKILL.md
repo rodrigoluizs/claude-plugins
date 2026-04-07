@@ -12,6 +12,19 @@ Builds and executes Redash queries from natural language intent. Designed for us
 - Base URL: `https://redash.data-bonial.com`
 - Auth header: `Authorization: Key $REDASH_API_KEY`
 
+## Data Source SQL Dialects
+
+The `GET /api/data_sources` response includes a `type` field for each data source. Use it to determine the correct SQL dialect before writing any query:
+
+| `type` | SQL engine | Key syntax notes |
+|---|---|---|
+| `athena` | **Presto** | `date_add('minute', N, now())`, `from_iso8601_timestamp()`, `\|\|` for string concat, `LIKE` (no `ILIKE`). No `DATE_SUB`, no `DATE_FORMAT`. |
+| `pg` | **PostgreSQL** | Standard PG syntax: `NOW()`, `INTERVAL`, `::` casts, `ILIKE`, `||` for string concat. |
+| `rds_mysql` | **MySQL** | `DATE_SUB(NOW(), INTERVAL N MINUTE)`, `CONCAT()`, `LIKE`. No `ILIKE`, no `::` casts. |
+| `results` | n/a | Queries over saved query results — use simple SELECT/WHERE only. |
+
+Always fetch the data source `type` in Step 2 and apply the matching dialect in Step 4. Never assume the dialect from the data source name.
+
 ## Workflow
 
 ### Step 1 — Clarify intent
@@ -25,7 +38,7 @@ curl -s -H "Authorization: Key $REDASH_API_KEY" \
   "https://redash.data-bonial.com/api/data_sources" | jq '.[] | {id, name, type}'
 ```
 
-Present the list to the user and ask which data source to use, or infer from intent if obvious.
+Present the list to the user and ask which data source to use, or infer from intent if obvious. Note the `type` field of the chosen data source — it determines the SQL dialect (see Data Source SQL Dialects above).
 
 ### Step 3 — Fetch schema
 
@@ -36,9 +49,13 @@ curl -s -H "Authorization: Key $REDASH_API_KEY" \
 
 Identify the relevant tables and columns based on the user's intent. Explain which tables and fields you plan to use in plain language (not SQL) before writing the query.
 
+**Partition field detection (critical for performance):** After identifying the target table, inspect its columns for any that look like partition fields — common names include `partition_date`, `year`, `month`, `day`, `hour`, `dt`, `date_partition`. If any are found, note them explicitly. They MUST be used in the WHERE clause of any query on that table.
+
 ### Step 4 — Draft SQL
 
-Write the SQL query. Show it to the user with a plain-language explanation of what it does. Wait for confirmation before executing.
+Write the SQL query using the correct dialect for the data source (see Data Source SQL Dialects above). If the target table has partition fields, always include them as WHERE predicates — this is required to avoid expensive full table scans. For time-based queries, derive the partition values from the requested time range (e.g. `partition_date = '2026-04-07'`).
+
+Show the query to the user with a plain-language explanation of what it does, including a note if partition fields are being used for performance. Wait for confirmation before executing.
 
 ### Step 5 — Execute the query
 
