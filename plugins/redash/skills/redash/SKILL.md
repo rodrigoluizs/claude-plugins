@@ -1,6 +1,6 @@
 ---
 name: redash
-description: Interact with Redash to explore data, build queries, and manage dashboards. Use this skill whenever the user mentions Redash, wants to query data, build a report, explore available data sources, or create/manage dashboards. Triggers on: "query", "dashboard", "data source", "redash", "create a report", "show me the data", "how many X", "what is the total", "build a query", "explore data".
+description: "Interact with Redash to explore data, build queries, and manage dashboards. Use this skill whenever the user mentions Redash, wants to query data, build a report, explore available data sources, or create/manage dashboards. Triggers on: query, dashboard, data source, redash, create a report, show me the data, how many X, what is the total, build a query, explore data."
 ---
 
 # Redash Coordinator
