@@ -21,12 +21,14 @@ Do not proceed until the key is present.
 
 ## Get Current User (Once Per Session)
 
-Cache the current user ID to determine ownership for permission checks:
+Fetch the current user once and remember the `id` field for the rest of the session. Do not re-fetch on subsequent permission checks — reuse the cached value.
 
 ```bash
 curl -s -H "Authorization: Key $REDASH_API_KEY" \
   "https://redash.data-bonial.com/api/users/me" | jq '{id, name, email}'
 ```
+
+Store the returned `id` as `CURRENT_USER_ID` for use in permission checks below.
 
 ## Intent Routing
 
@@ -36,8 +38,10 @@ Understand the user's intent and route to the appropriate sub-agent:
 |---|---|
 | "is there already a query for X?" / "find a dashboard about Y" | `redash-explore` |
 | "I want to know X" / "build a query for Y" / "create a report" | `redash-explore` first, then `redash-query-builder` if nothing found |
+| "how many X" / "what is the total of Y" / "show me the data for Z" | `redash-explore` first, then `redash-query-builder` if nothing found |
 | "create a dashboard" / "add this query to a dashboard" | `redash-dashboards` |
 | "edit/delete this dashboard" | Check permission, then `redash-dashboards` |
+| "edit/delete this query" | Check permission, then `redash-query-builder` |
 
 ## Permission Check (Before Any Mutating Operation on Existing Resources)
 
