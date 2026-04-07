@@ -35,6 +35,7 @@ To get the latest versions of all installed plugins:
 |--------|--------|--------|-------------|
 | `product` | `create-prd` | — | Product management tools for feature definition and planning |
 | `maintenance` | [`handle-dependency-prs`](docs/handle-dependency-prs.md), `fix-ci-main` | `analyze-dependency-pr`, `fix-dependency-pr` | Tools for routine repository maintenance and housekeeping |
+| `redash` | `redash`, `redash-explore`, `redash-query-builder`, `redash-dashboards` | — | Intent-driven query building and data exploration for Redash |
 
 ## Adding a new plugin
 
