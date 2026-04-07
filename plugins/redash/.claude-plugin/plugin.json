@@ -1,6 +1,6 @@
 {
   "name": "redash",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Intent-driven query building and data exploration for Redash",
   "author": {
     "name": "Rodrigo Silva",
