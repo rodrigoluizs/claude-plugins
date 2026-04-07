@@ -71,6 +71,8 @@ curl -s -H "Authorization: Key $REDASH_API_KEY" \
 
 Job status codes: 1=PENDING, 2=STARTED, 3=SUCCESS, 4=FAILURE, 5=CANCELLED.
 
+Poll up to 30 times (60 seconds total). If status is still PENDING or STARTED after 30 attempts, stop and tell the user: "The query is taking longer than expected. You can check the result later in Redash directly."
+
 **Fetch result:**
 ```bash
 curl -s -H "Authorization: Key $REDASH_API_KEY" \
@@ -109,6 +111,22 @@ curl -s -X POST \
 - **Job FAILURE:** Show the error message from `job.error` in plain language. Offer to adjust the query.
 - **HTTP 401/403:** Tell the user the API key may be invalid; suggest checking it at `https://redash.data-bonial.com/users/me`.
 - **HTTP 5xx:** Retry the request once. If it fails again, surface the error.
+
+## Permission Guard
+
+When editing or deleting an existing query (as opposed to creating a new one), only proceed if the coordinator prompt explicitly states: "The user has confirmed permission to modify this resource." If this statement is absent, do not modify the query and tell the user to confirm via the coordinator.
+
+## Delete Query
+
+To archive (soft-delete) an existing query after coordinator permission is granted:
+
+```bash
+curl -s -X DELETE \
+  -H "Authorization: Key $REDASH_API_KEY" \
+  "https://redash.data-bonial.com/api/queries/<query_id>"
+```
+
+Inform the user that the query has been archived and can be restored from the Redash UI if needed.
 
 ## Tone
 
