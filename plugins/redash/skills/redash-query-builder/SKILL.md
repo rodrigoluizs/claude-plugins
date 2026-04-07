@@ -12,6 +12,17 @@ Builds and executes Redash queries from natural language intent. Designed for us
 - Base URL: `https://redash.data-bonial.com`
 - Auth header: `Authorization: Key $REDASH_API_KEY`
 
+## Data Source SQL Dialects
+
+Different data sources require different SQL syntax. Always identify the data source type before writing SQL:
+
+| Data source | SQL engine | Notes |
+|---|---|---|
+| Data Lake - Athena | **Presto** | Use `date_add('minute', -5, now())`, `from_iso8601_timestamp()`, `LIKE`, `||` for string concat. No `DATE_SUB`, no `ILIKE`. |
+| Other sources | Standard SQL | Use the dialect appropriate to the database type (PostgreSQL, MySQL, etc.) |
+
+When the data source is Athena, always write Presto-compatible SQL.
+
 ## Workflow
 
 ### Step 1 — Clarify intent
@@ -36,9 +47,13 @@ curl -s -H "Authorization: Key $REDASH_API_KEY" \
 
 Identify the relevant tables and columns based on the user's intent. Explain which tables and fields you plan to use in plain language (not SQL) before writing the query.
 
+**Partition field detection (critical for performance):** After identifying the target table, inspect its columns for any that look like partition fields — common names include `partition_date`, `year`, `month`, `day`, `hour`, `dt`, `date_partition`. If any are found, note them explicitly. They MUST be used in the WHERE clause of any query on that table.
+
 ### Step 4 — Draft SQL
 
-Write the SQL query. Show it to the user with a plain-language explanation of what it does. Wait for confirmation before executing.
+Write the SQL query using the correct dialect for the data source (see Data Source SQL Dialects above). If the target table has partition fields, always include them as WHERE predicates — this is required to avoid expensive full table scans. For time-based queries, derive the partition values from the requested time range (e.g. `partition_date = '2026-04-07'`).
+
+Show the query to the user with a plain-language explanation of what it does, including a note if partition fields are being used for performance. Wait for confirmation before executing.
 
 ### Step 5 — Execute the query
 
