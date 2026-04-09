@@ -1,4 +1,6 @@
+# Changelog
 
+## [1.0.0](https://github.com/rodrigoluizs/claude-plugins/compare/redash/v0.2.0...redash/v1.0.0) (2026-04-09)
 
 ## [0.2.0](https://github.com/rodrigoluizs/claude-plugins/compare/redash/v0.1.0...redash/v0.2.0) (2026-04-07)
 
@@ -13,5 +15,3 @@
 ### Features
 
 * **redash:** add redash plugin ([#80](https://github.com/rodrigoluizs/claude-plugins/issues/80)) ([a5a9b75](https://github.com/rodrigoluizs/claude-plugins/commit/a5a9b75a83aa7e508b94d00b4b9cbd85f24e23e9))
-
-# Changelog

@@ -1,4 +1,6 @@
+# Changelog
 
+## [4.0.0](https://github.com/rodrigoluizs/claude-plugins/compare/maintenance/v3.0.0...maintenance/v4.0.0) (2026-04-09)
 
 ## [3.0.0](https://github.com/rodrigoluizs/claude-plugins/compare/maintenance/v2.0.0...maintenance/v3.0.0) (2026-04-02)
 
@@ -33,7 +35,7 @@ re-confirm before merging more than 10 PRs in a single session.
 * **release:** fix jq split to handle newline-separated plugin names ([#63](https://github.com/rodrigoluizs/claude-plugins/issues/63)) ([79a3258](https://github.com/rodrigoluizs/claude-plugins/commit/79a3258e5c970f578c8d370061744c4e701bbb41))
 * **release:** skip workflow on chore(release) commits to prevent infinite loop ([#62](https://github.com/rodrigoluizs/claude-plugins/issues/62)) ([d75c567](https://github.com/rodrigoluizs/claude-plugins/commit/d75c5677eeb4b1f36488ccbca72edb3cd3b16145))
 
-# Changelog
+
 
 ## 0.6.2 (2026-03-30)
 
