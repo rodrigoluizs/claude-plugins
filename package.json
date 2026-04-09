@@ -2,8 +2,8 @@
   "name": "claude-plugins",
   "private": true,
   "devDependencies": {
-    "@release-it/bumper": "^6.0.0",
-    "@release-it/conventional-changelog": "^8.0.0",
-    "release-it": "^17.0.0"
+    "@release-it/bumper": "^7.0.0",
+    "@release-it/conventional-changelog": "^10.0.0",
+    "release-it": "^19.0.0"
   }
 }
