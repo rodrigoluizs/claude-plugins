@@ -1,4 +1,6 @@
+# Changelog
 
+## [1.0.0](https://github.com/rodrigoluizs/claude-plugins/compare/product/v0.5.0...product/v1.0.0) (2026-04-09)
 
 ## [0.5.0](https://github.com/rodrigoluizs/claude-plugins/compare/product/v0.4.0...product/v0.5.0) (2026-04-02)
 
@@ -38,7 +40,7 @@
 
 * **release:** download artifacts to temp dir then copy to preserve paths ([#54](https://github.com/rodrigoluizs/claude-plugins/issues/54)) ([e061897](https://github.com/rodrigoluizs/claude-plugins/commit/e0618976c49397496a95e9d212cefc36f46300a5))
 
-# Changelog
+
 
 ## 0.3.1 (2026-03-28)
 
