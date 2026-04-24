@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.0](https://github.com/rodrigoluizs/claude-plugins/compare/product/v1.0.0...product/v1.1.0) (2026-04-24)
+
+### Features
+
+* **product:** add 'scope a feature' trigger to create-prd skill ([a7b9cb3](https://github.com/rodrigoluizs/claude-plugins/commit/a7b9cb3e773ee5cf6ec06c5a1049f70b8354f19e))
+
 ## [1.0.0](https://github.com/rodrigoluizs/claude-plugins/compare/product/v0.5.0...product/v1.0.0) (2026-04-09)
 
 ## [0.5.0](https://github.com/rodrigoluizs/claude-plugins/compare/product/v0.4.0...product/v0.5.0) (2026-04-02)
