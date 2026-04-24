@@ -20,7 +20,7 @@
       "source": "./plugins/maintenance",
       "description": "Tools for routine repository maintenance and housekeeping",
       "category": "productivity",
-      "version": "4.0.0"
+      "version": "4.1.0"
     },
     {
       "name": "redash",
