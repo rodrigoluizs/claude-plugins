@@ -1,5 +1,11 @@
 # Changelog
 
+## [4.1.0](https://github.com/rodrigoluizs/claude-plugins/compare/maintenance/v4.0.0...maintenance/v4.1.0) (2026-04-24)
+
+### Features
+
+* **maintenance:** add 'sweep dependency backlog' trigger to handle-dependency-prs skill ([45d591a](https://github.com/rodrigoluizs/claude-plugins/commit/45d591aa6a3bbff46ed7144310c28277dff547f6))
+
 ## [4.0.0](https://github.com/rodrigoluizs/claude-plugins/compare/maintenance/v3.0.0...maintenance/v4.0.0) (2026-04-09)
 
 ## [3.0.0](https://github.com/rodrigoluizs/claude-plugins/compare/maintenance/v2.0.0...maintenance/v3.0.0) (2026-04-02)
