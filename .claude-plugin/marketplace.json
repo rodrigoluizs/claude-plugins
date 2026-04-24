@@ -13,7 +13,7 @@
       "source": "./plugins/product",
       "description": "Product management tools for feature definition and planning",
       "category": "productivity",
-      "version": "1.0.0"
+      "version": "1.1.0"
     },
     {
       "name": "maintenance",
