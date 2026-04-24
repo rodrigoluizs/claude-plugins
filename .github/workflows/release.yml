@@ -104,12 +104,6 @@ jobs:
             --git.commitMessage='chore(release): ${{ matrix.plugin }} v${version}' \
             --ci
 
-      - name: Push tag
-        run: |
-          cd plugins/${{ matrix.plugin }}
-          NEW_VERSION=$(jq -r '.version' .claude-plugin/plugin.json)
-          git push origin "${{ matrix.plugin }}/v${NEW_VERSION}"
-
       - name: Upload release artifacts
         run: |
           mkdir -p /tmp/artifacts/plugins/${{ matrix.plugin }}/.claude-plugin
@@ -158,43 +152,55 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.get-token.outputs.token }}
 
-      - name: Update marketplace.json
+      - name: Update marketplace.json from plugin.json files
         run: |
           python3 - <<'PYEOF'
-          import json, subprocess
+          import json
+          from pathlib import Path
 
           with open(".claude-plugin/marketplace.json") as f:
               data = json.load(f)
 
-          for plugin in data["plugins"]:
-              name = plugin["name"]
-              result = subprocess.run(
-                  ["git", "tag", "-l", f"{name}/v*"],
-                  capture_output=True, text=True
-              )
-              tags = [t for t in result.stdout.strip().split("\n") if t]
-              if tags:
-                  tag = sorted(tags)[-1]
-                  plugin["version"] = tag.split("/v", 1)[-1]
+          for entry in data["plugins"]:
+              plugin_json = Path(f"plugins/{entry['name']}/.claude-plugin/plugin.json")
+              if plugin_json.exists():
+                  with open(plugin_json) as f:
+                      entry["version"] = json.load(f)["version"]
 
           with open(".claude-plugin/marketplace.json", "w") as f:
               json.dump(data, f, indent=2)
               f.write("\n")
           PYEOF
 
-      - name: Create release branch and PR
+      - name: Create release branch, tags, and PR
         run: |
           BRANCH="chore/release-${{ github.run_id }}"
           git checkout -b "$BRANCH"
           git add plugins/ .claude-plugin/marketplace.json
-          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
           git commit -m "chore(release): update plugin files and marketplace"
+          COMMIT_SHA=$(git rev-parse HEAD)
           git push origin "$BRANCH"
+
+          # Tag the commit that will land on main for each released plugin.
+          # Using --merge (not --squash) below preserves this SHA so tags stay reachable.
+          for plugin in $(echo '${{ needs.detect.outputs.plugins }}' | jq -r '.[]'); do
+            VERSION=$(jq -r '.version' "plugins/$plugin/.claude-plugin/plugin.json")
+            TAG="$plugin/v$VERSION"
+            echo "Tagging $TAG -> $COMMIT_SHA"
+            git tag "$TAG" "$COMMIT_SHA"
+            git push origin "$TAG"
+          done
+
           PR_URL=$(gh pr create \
             --title "chore(release): update plugin files and marketplace" \
             --body "Automated release: updates CHANGELOG.md, plugin.json, and marketplace.json for released plugins." \
             --base main \
             --head "$BRANCH")
-          gh pr merge "$PR_URL" --auto --squash
+          # --merge (not --squash) preserves the commit SHA that tags point to
+          gh pr merge "$PR_URL" --auto --merge
         env:
           GH_TOKEN: ${{ steps.get-token.outputs.token }}

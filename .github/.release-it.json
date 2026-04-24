@@ -1,6 +1,8 @@
 {
   "git": {
     "push": false,
+    "commit": false,
+    "tag": false,
     "commitsPath": ".",
     "requireUpstream": false,
     "getLatestTagFromAllRefs": true
