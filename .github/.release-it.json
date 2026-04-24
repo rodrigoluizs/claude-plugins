@@ -17,6 +17,9 @@
       "infile": "CHANGELOG.md",
       "gitRawCommitsOpts": {
         "path": "."
+      },
+      "commitsOpts": {
+        "path": "."
       }
     },
     "@release-it/bumper": {

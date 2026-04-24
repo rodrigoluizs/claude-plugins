@@ -5,8 +5,15 @@ on:
     branches: [main]
     paths:
       - 'plugins/**'
+  workflow_dispatch:
+    inputs:
+      plugins:
+        description: 'Comma-separated list of plugin names to release (e.g. "maintenance,product")'
+        required: true
+        type: string
 
 permissions:
+  actions: read
   contents: write
   pull-requests: write
 
@@ -23,10 +30,29 @@ jobs:
 
       - name: Detect changed plugins
         id: detect
+        env:
+          INPUT_PLUGINS: ${{ inputs.plugins }}
+          BEFORE_SHA: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
         run: |
-          PLUGINS=$(bash .github/scripts/detect-changed-plugins.sh \
-            "${{ github.event.before }}" \
-            "${{ github.sha }}")
+          if [ -n "$INPUT_PLUGINS" ]; then
+            PLUGINS=$(echo "$INPUT_PLUGINS" | tr ',' '\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | grep '.')
+          else
+            PLUGINS=$(bash .github/scripts/detect-changed-plugins.sh \
+              "$BEFORE_SHA" \
+              "$HEAD_SHA")
+          fi
+          # Validate: plugin names must be lowercase kebab-case and exist as directories
+          while IFS= read -r name; do
+            if ! echo "$name" | grep -qE '^[a-z][a-z0-9]*(-[a-z0-9]+)*$'; then
+              echo "::error::Invalid plugin name: $name"
+              exit 1
+            fi
+            if [ ! -d "plugins/$name" ]; then
+              echo "::error::Plugin directory not found: plugins/$name"
+              exit 1
+            fi
+          done <<< "$PLUGINS"
           echo "Found changed plugins: $PLUGINS"
           JSON=$(echo "$PLUGINS" | jq -Rsc '[split("\n")[] | select(length > 0)]')
           echo "plugins=$JSON" >> "$GITHUB_OUTPUT"
@@ -69,8 +95,11 @@ jobs:
       - name: Run release-it
         run: |
           cd plugins/${{ matrix.plugin }}
+          jq --arg prefix "${{ matrix.plugin }}/" \
+            '.plugins["@release-it/conventional-changelog"].tagOpts.prefix = $prefix' \
+            ../../.github/.release-it.json > /tmp/.release-it.json
           npx release-it \
-            --config ../../.github/.release-it.json \
+            --config /tmp/.release-it.json \
             --git.tagName='${{ matrix.plugin }}/v${version}' \
             --git.commitMessage='chore(release): ${{ matrix.plugin }} v${version}' \
             --ci
